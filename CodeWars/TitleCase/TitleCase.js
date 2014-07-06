@@ -1,14 +1,24 @@
-function titleCase(title, minorWords) {
-	var titleArray = title.split(' ');
-	
-	var s = titleArray[0];
-	var index = 0;
-	s = s.substr(0, index) + titleArray[0][0].toUpperCase() + s.substr(index + 1);
-	titleArray[0] = s;
+String.prototype.replaceAt = function(index, character) {
+	return this.substr(0, index) + character + this.substr(index + 1);
+};
 
-	console.log(s);
+var codeWars = codeWars || {};
+(function codeWars (myNs) {
+	myNs.TitleCase = function (){
 
-	return titleArray.join(' ');
-}
+	};
 
-module.exports = titleCase;
+	myNs.TitleCase.prototype.titleCase = function (title, minorWords){
+		var titleArray = title.split(' ');
+
+		titleArray[0] = this.capFirstChar(titleArray[0]);
+
+		return titleArray.join(' ');
+	};
+
+	myNs.TitleCase.prototype.capFirstChar = function (word){
+		return word.replaceAt(0, word[0].toUpperCase());
+	};
+})(codeWars);
+
+module.exports = codeWars;
