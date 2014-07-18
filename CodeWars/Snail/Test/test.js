@@ -8,6 +8,12 @@ describe('Snails Tests: ', function() {
          		[4,5,6],
          		[7,8,9]
          	       ];
+         	var inputArray2 = [	
+		[1,2,3,4],
+         		[5,6,7,8],
+         		[9,10,11,12],
+         		[12,13,14,15]
+         	       ];
 
 	it('Check Horizontal Remove', function() {
 		var rowNumber, expected, expectedRemovedRow, removedRow,array;
@@ -107,5 +113,83 @@ describe('Snails Tests: ', function() {
 		actual = snails.moveAndSpliceVertical(array, columnNumber, scanDown);
 		assert.deepEqual(actual,  expected);
 		assert.deepEqual(array,  expectedArray);
+	});
+
+	it('Check Get Next Move Direction', function() {
+		var actual, expected;
+
+		expected = 'right';
+		actual = snails.getMoveDirection(0);
+		assert.equal(actual,  expected);
+		expected = 'left';
+		actual = snails.getMoveDirection(2);
+		assert.equal(actual,  expected);
+
+		expected = 1;
+		actual = snails.getNextDirectionIndex(0);
+		assert.equal(actual,  expected);
+		expected = 2;
+		actual = snails.getNextDirectionIndex(1);
+		assert.equal(actual,  expected);
+		expected = 3;
+		actual = snails.getNextDirectionIndex(2);
+		assert.equal(actual,  expected);
+		expected = 0;
+		actual = snails.getNextDirectionIndex(3);
+		assert.equal(actual,  expected);
+	});
+
+	it('Check Get Start Position And Direction', function() {
+		var expected,actual, direction, array, currentIndex, nextIndex;
+
+		array  = inputArray1.map(function(arr) {
+				return arr.slice();
+			});
+
+		// right
+		currentIndex = snails.getMoveDirectionIndex();
+		direction = snails.getMoveDirection(currentIndex);
+		expected = {index: 0, direction: true};
+		actual = snails.getStartPositionAndDirection(direction, array);
+		assert.deepEqual(actual,  expected);
+
+		// down
+		snails.setNextStep();
+		currentIndex = snails.getMoveDirectionIndex();
+		direction = snails.getMoveDirection(currentIndex);
+		expected = {index: 2, direction: true};
+		actual = snails.getStartPositionAndDirection(direction, array);
+		assert.deepEqual(actual,  expected);
+
+		
+		// left
+		snails.setNextStep();
+		currentIndex = snails.getMoveDirectionIndex();
+		direction = snails.getMoveDirection(currentIndex);
+		expected = {index: 2, direction: false};
+		actual = snails.getStartPositionAndDirection(direction, array);
+		assert.deepEqual(actual,  expected);
+
+		// up
+		snails.setNextStep();
+		currentIndex = snails.getMoveDirectionIndex();
+		direction = snails.getMoveDirection(currentIndex);
+		expected = {index: 0, direction: false};
+		actual = snails.getStartPositionAndDirection(direction, array);
+		assert.deepEqual(actual,  expected);
+
+		snails.setNextStep();
+	});
+
+	it('Check Snails', function() {
+		var expected,actual;
+
+		expected = [1,2,3,6,9,8,7,4,5];
+		actual = snails.snail(inputArray1);
+		assert.deepEqual(actual,  expected);
+
+		expected = [1,2,3,4,8,12,15,14,13,12,9,5,6,7,11,10];
+		actual = snails.snail(inputArray2);
+		assert.deepEqual(actual,  expected);
 	});
 });
