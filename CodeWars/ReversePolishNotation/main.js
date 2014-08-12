@@ -21,7 +21,39 @@ var codeWars = codeWars || {};
 
 	myNs.ReversePolish.prototype.calc = function (input){
 		if(!input) return 0;
-		var arr = input.split(' ');
+		var stack = [];
+		input.split(' ').map(function (value, index){
+			if(this.isDigit(value))
+				stack.push(value);
+			else{
+				var  n2 = stack.pop();
+				var  n1= stack.pop();
+				stack.push(this.addStrings(value, n1, n2));
+			}
+		}, this);
+		return stack.pop();
+	};
+
+	myNs.ReversePolish.prototype.isDigit = function (item){
+		return !(isNaN(parseInt(item)));
+	};
+	myNs.ReversePolish.prototype.addStrings = function (operation, s1, s2){
+		var n1 = parseInt(s1); 
+		var n2 = parseInt(s2); 
+		var result = 0;
+		if(operation === '+'){
+			result = n1 + n2;
+		}
+		if(operation === '*'){
+			result = n1 * n2;
+		}
+		if(operation === '-'){
+			result = n1 - n2;
+		}
+		if(operation === '/'){
+			result = n1 / n2;
+		}
+		return result;
 	};
 })(codeWars);
 
