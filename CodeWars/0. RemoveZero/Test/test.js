@@ -11,5 +11,8 @@ describe('Snails Tests: ', function() {
 	it('Check  Remove Zeros', function() {
 		rz.removeZero(inputArray1);
 		assert.deepEqual(inputArray1,  expected1);
+
+		rz.removeZero(inputArray2);
+		assert.deepEqual(inputArray2,  expected2);
 	});
 });
