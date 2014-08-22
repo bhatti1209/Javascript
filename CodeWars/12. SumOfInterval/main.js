@@ -31,7 +31,28 @@ var codeWars = codeWars || {};
 	};
 
 	myNs.SumInterval.prototype.sumOfIntervals = function (inputArray){
-		
+		var result = 0;
+		var sortedArray = this.sortArray(inputArray);
+		var reduced = sortedArray.reduce(function (pv, cv, index){
+			var lstIndex= (index !== 0) ? pv.length - 1: 0;
+			if(index !== 0 && cv[0] < pv[lstIndex][1]){
+				pv[lstIndex][1] = (cv[1] > pv[lstIndex][1]) ? cv[1]: pv[lstIndex][1];
+			}
+			else
+				pv.push(cv);
+			return pv;
+		}, []);
+		result = reduced.reduce(function (pvalue, cvalue){
+			return pvalue + (cvalue[1] - cvalue[0]);
+		}, 0);
+		return result;
+	};
+
+	myNs.SumInterval.prototype.sortArray = function (inputArray){
+		return inputArray.sort(this.sortFunction);
+	};
+	myNs.SumInterval.prototype.sortFunction = function (a, b){
+		return a[0] - b[0];
 	};
 })(codeWars);
 

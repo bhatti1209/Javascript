@@ -10,13 +10,27 @@ var codeWars = codeWars || {};
 
 	myNs.TitleCase.prototype.titleCase = function (title, minorWords){
 		var titleArray = title.split(' ');
+		var minorWordArray = (minorWords) ? minorWords.toLowerCase().split(' ') : [];
 
-		titleArray[0] = this.capFirstChar(titleArray[0]);
+		for(var q=0;q<titleArray.length;q++){
+			if(titleArray[q]){
+				var isMinor = isMinorWord(titleArray[q], minorWordArray);
+				if(q === 0 || !isMinor){
+					titleArray[q] = capFirstChar(titleArray[q].toLowerCase());
+				}
+				else{  
+					titleArray[q] = titleArray[q].toLowerCase();
+				}
+			}
+		}
 
 		return titleArray.join(' ');
 	};
 
-	myNs.TitleCase.prototype.capFirstChar = function (word){
+	var isMinorWord = function (wordToCheck, minorWordList){
+		return (minorWordList.indexOf(wordToCheck.toLowerCase()) !== -1);
+	};
+	var capFirstChar = function (word){
 		return word.replaceAt(0, word[0].toUpperCase());
 	};
 })(codeWars);
